@@ -143,7 +143,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
             setImage(SmartSquare.class.getResource("/bombReveal.png"));
             long costTime = System.currentTimeMillis() - ((SmartSquare) board.getSquareAt(0, 0)).getStartTime();
             cq.showBomb(xLocation, yLocation);
-            window("You used " + TimeChecker.calculateTime(costTime) +". Do you want to try again?", "Game Over",
+            window1("You used " + TimeChecker.calculateTime(costTime) +". Do you want to try again?", "Game Over",
                     new ImageIcon(SmartSquare.class.getResource("/failFace.png")));
         } else{
             thisSquareHasTraversed = false;
