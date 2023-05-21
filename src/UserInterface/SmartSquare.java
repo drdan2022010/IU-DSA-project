@@ -196,7 +196,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
         {
 
         }else {
-            window("Do you want to go back to the menu?", "Continute>",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
+            window("Do you want to go back to the menu?", "Continute?",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
         }
 
         // Close this window after user making a choice
