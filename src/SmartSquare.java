@@ -159,7 +159,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
             }
         }
     }
-
+//
     /**
      * A method to achieve pop-up window.
      * @param msg the message to display on the window.
