@@ -1,10 +1,8 @@
-package UserInterface;
-
-import Library.TimeChecker;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 
 public class SmartSquare extends GameSquare implements MouseListener, TimeChecker
 {
@@ -26,6 +24,13 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
     /** The y co-ordinate of this square. **/
     private long startTime;
 
+
+    /**
+     * Create a new SmartSquare instance, which can be placed on a GameBoard.
+     * @param x the x co-ordinate of this square on the game board.
+     * @param y the y co-ordinate of this square on the game board.
+     * @param board the GameBoard upon which this square resides.
+     */
     public SmartSquare(int x, int y, GameBoard board)
     {
         // Paint this square as gray block when initialization.
@@ -115,6 +120,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
     public void clicked()
     {
 
+
         CheckSquare cq = new CheckSquare(board);
 
         guessThisSquareIsBomb = false;
@@ -127,7 +133,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
              */
             setImage(SmartSquare.class.getResource("/bombReveal.png"));
             long costTime = System.currentTimeMillis() - ((SmartSquare) board.getSquareAt(0, 0)).getStartTime();
-            cq.showBomb(xLocation, yLocation);
+//			cq.showBomb(xLocation, yLocation);
             window1("You used " + TimeChecker.calculateTime(costTime) +". Do you want to try again?", "Game Over",
                     new ImageIcon(SmartSquare.class.getResource("/failFace.png")));
         } else{
@@ -149,7 +155,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
             }
         }
     }
-
+//
     /**
      * A method to achieve pop-up window.
      * @param msg the message to display on the window.
@@ -173,20 +179,21 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 
     public void window1(String msg, String title, Icon img)
     {
-
+        CheckSquare cq = new CheckSquare(board);
         int choose = JOptionPane.showConfirmDialog(board, msg, title,
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,img);
 
         if (choose == JOptionPane.YES_OPTION)
         {
-            //thêm tên hàm tại đây
+            setImage(SmartSquare.class.getResource("/block.png"));
 
         }else {
-            window("Do you want to go back to the menu?", "Continute?",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
+            cq.showBomb(xLocation,yLocation);
+            window("Do you want to go back to the menu?", "Continute>",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
+            board.dispose();
         }
 
-        // Close this window after user making a choice
-        board.dispose();
+
     }
 
 
