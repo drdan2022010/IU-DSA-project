@@ -6,15 +6,6 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * This class inherits from the GameSquare class.
- * This class implements the methods from ActionListener and MouseListener to respond different click events.
- * Each square has its own unique representation of coordinates and attributes.
- * This class counts the number of its surrounding bombs once user clicks the square.
- * This class shows a pop-up window when the game failed or user succeed.
- * @author Hephaest
- * @since 3/21/2019 8:41 PM
- */
 public class SmartSquare extends GameSquare implements MouseListener, TimeChecker
 {
     /** The bomb existence of this square. **/
@@ -35,12 +26,6 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
     /** The y co-ordinate of this square. **/
     private long startTime;
 
-    /**
-     * Create a new SmartSquare instance, which can be placed on a GameBoard.
-     * @param x the x co-ordinate of this square on the game board.
-     * @param y the y co-ordinate of this square on the game board.
-     * @param board the GameBoard upon which this square resides.
-     */
     public SmartSquare(int x, int y, GameBoard board)
     {
         // Paint this square as gray block when initialization.
