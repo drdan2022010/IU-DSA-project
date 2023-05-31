@@ -33,8 +33,6 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
      * @param y the y co-ordinate of this square on the game board.
      * @param board the GameBoard upon which this square resides.
      */
-=======
->>>>>>> faf651905c9cd0f0500f01abd3d55dc143d32c10
     public SmartSquare(int x, int y, GameBoard board)
     {
         // Paint this square as gray block when initialization.
