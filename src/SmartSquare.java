@@ -1,9 +1,8 @@
 
-
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Stack;
+
 
 public class SmartSquare extends GameSquare implements MouseListener, TimeChecker
 {
@@ -25,7 +24,6 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
     /** The y co-ordinate of this square. **/
     private long startTime;
 
-<<<<<<< HEAD
 
     /**
      * Create a new SmartSquare instance, which can be placed on a GameBoard.
