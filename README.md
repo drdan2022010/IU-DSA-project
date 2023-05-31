@@ -4,23 +4,40 @@ This is the Team 30 FLOP Minesweeper DSA final project. Minesweeper is one of th
 
 ## Documentation
 ### Features:
-- Completed: New map, Whack a mole (mini game), stop, restart.
-- Incompleted: Boss, Shop which can change the custom of pacman.
+- Completed: Custom game map, Whack a mole (mini game), stop, restart.
+- Future plans: Boss, Shop which can change the custom of pacman.
 ## Screenshots 
+### Minesweeper Screenshots
 |<img src="images/screenshots/config_main_game.png" alt="Configuration screen" width="400"/> |
 |:---:|
 | **Configuration Screen**|
 
-|<img src="images/screenshots/.png" alt="Game play" width="400"/> |
+|<img src="images/screenshots/beginner_map.png" alt="Game play" width="400"/> |
 |:---:|
-| **Game Play**|
+| **Beginner Map Screen**|
 
-|<img src="images/screenshots/.png" alt="Fail screen" width="400"/> |
+|<img src="images/screenshots/intermediate_map.png" alt="Fail screen" width="400"/> |
 |:---:|
-| **Fail Screen**|
+| **Intermediate Map Screen**|
+
+|<img src="images/screenshots/advanced_map.png" alt="Fail screen" width="400"/> |
+|:---:|
+| **Advanced Screen Screen**|
+
+|<img src="images/screenshots/popup_gameover.png" alt="Fail screen" width="400"/> |
+|:---:|
+| **Game Over Popup**|
+
+|<img src="images/screenshots/popup_win.png" alt="Fail screen" width="400"/> |
+|:---:|
+| **Congratulation Popup**|
+
+|<img src="images/screenshots/popup_backtomenu.png" alt="Fail screen" width="400"/> |
+|:---:|
+| **Back To Menu Popup**|
 ## Tech stacks
 - Language: [JAVA](https://www.java.com/en/)
-- Framework: [IntelliJ](https://www.jetbrains.com/idea/)
+- IDEA: [IntelliJ](https://www.jetbrains.com/idea/)
 - Library: [JavaSwing](https://en.wikipedia.org/wiki/Swing_(Java)) and [JavaAWS](https://en.wikipedia.org/wiki/Abstract_Window_Toolkit)
 ## Contributing
 | Order |          Name          |     ID      |                Task                | Contribution |
