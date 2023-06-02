@@ -1,6 +1,3 @@
-package UserInterface;
-
-import Library.Bomb;
 import java.util.Random;
 
 public class ProduceBombs extends Bomb
