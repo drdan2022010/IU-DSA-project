@@ -1,11 +1,16 @@
 # Minesweeper For DSA
 ## Introduction
-This is the Team 30 FLOP Minesweeper DSA final project. Minesweeper is one of the most popular games in the world. Also we have a mini-game project called whack-a-mole that can help you to relax.
+This is the Team 30 FLOP Minesweeper DSA final project. Minesweeper is a puzzle game that consists of a grid of cells, where some of the cells contain hidden “mines”. Furthermore, we also build a extra mini game called whack-a-mole for relaxing purposes.
 
 ## Documentation
 ### Features:
-- Completed: Custom game map, Whack a mole (mini game), stop, restart.
-- Future plans: Boss, Shop which can change the custom of pacman.
+- Completed: 
+    - Custom a bunch of map (beginner, intermediate, advanced).
+    - Turn back the previous step if click on mine.
+    - Build Whack a mole (mini game)
+- Future plans: 
+    - Register/ Login Feature.
+    - Show top 10 scores for selected difficult level.
 ## Screenshots 
 ### Minesweeper Screenshots
 |<img src="images/screenshots/config_main_game.png" alt="Configuration screen" width="400"/> |
