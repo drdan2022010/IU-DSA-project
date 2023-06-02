@@ -46,7 +46,7 @@ This is the Team 30 FLOP Minesweeper DSA final project. Minesweeper is a puzzle 
 ## Tech stacks
 - Language: [JAVA](https://www.java.com/en/)
 - IDEA: [IntelliJ](https://www.jetbrains.com/idea/)
-- Library: [JavaSwing](https://en.wikipedia.org/wiki/Swing_(Java)) and [JavaAWS](https://en.wikipedia.org/wiki/Abstract_Window_Toolkit)
+- Library: [JavaSwing](https://en.wikipedia.org/wiki/Swing_(Java)) and [JavaAWT](https://en.wikipedia.org/wiki/Abstract_Window_Toolkit)
 ## Contributing
 | Order |          Name          |     ID      |                Task                | Contribution |
 | :---: |:----------------------:|:-----------:|:----------------------------------:|:------------:|
