@@ -16,9 +16,9 @@ This is the Team 30 FLOP Minesweeper DSA final project. Minesweeper is a puzzle 
     - Show top 10 scores for selected difficult level.
 ## Screenshots
 ### UML
-|<img src="images/screenshots/uml_1.png" alt="Configuration screen" width="400"/> |
+|<img src="images/screenshots/uml.png" alt="Configuration screen" width="1000"/> |
 |:---:|
-| **Configuration Screen**|
+| **UML**|
 ### Minesweeper Screenshots
 |<img src="images/screenshots/config_main_game.png" alt="Configuration screen" width="400"/> |
 |:---:|
