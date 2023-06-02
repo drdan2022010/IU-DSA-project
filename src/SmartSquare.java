@@ -193,7 +193,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 
 		}else {
 			cq.showBomb(xLocation,yLocation);
-			window("Do you want to go back to the menu?", "Continute>",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
+			window("Do you want to go back to the menu?\nOr click No to see a small suprise ;3", "Continute :>",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
 			try {
 				Desktop desk = Desktop.getDesktop();
 				desk.browse(new URI("https://youtu.be/dQw4w9WgXcQ"));
