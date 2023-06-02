@@ -2,6 +2,10 @@
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.Desktop;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 public class SmartSquare extends GameSquare implements MouseListener, TimeChecker
@@ -190,10 +194,16 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 		}else {
 			cq.showBomb(xLocation,yLocation);
 			window("Do you want to go back to the menu?", "Continute>",new ImageIcon(SmartSquare.class.getResource("/passFace.jpg")));
+			try {
+				Desktop desk = Desktop.getDesktop();
+				desk.browse(new URI("https://youtu.be/dQw4w9WgXcQ"));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			} catch (URISyntaxException e) {
+				throw new RuntimeException(e);
+			}
 			board.dispose();
 		}
-
-
 	}
 
 

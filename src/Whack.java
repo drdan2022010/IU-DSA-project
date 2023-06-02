@@ -45,7 +45,7 @@ public class Whack extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    private class StartButtonActionListener implements ActionListener {
+    public class StartButtonActionListener implements ActionListener {
         javax.swing.Timer stimer;
         java.util.Timer utimer;
         public void actionPerformed(ActionEvent e) {
@@ -109,7 +109,7 @@ public class Whack extends JFrame{
             return rnd.nextInt(9);
         }
     }
-    private class MoleBtnActionListener implements ActionListener {
+    public class MoleBtnActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             btns[rnum].setIcon(null);
             try {
@@ -124,7 +124,7 @@ public class Whack extends JFrame{
             }
         }
 
-        public void playSound(String soundName)
+        public static void playSound(String soundName)
         {
             try
             {
