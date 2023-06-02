@@ -1,46 +1,46 @@
-Table of Contents
+目录
 =================
 
-   * [Minesweeper Demo](#minesweeper-demo)
-   * [Minesweeper](#minesweeper)
-   * [Game Driver](#game-driver)
-   * [Library](#library)
-   * [User Interface](#user-interface)
-      * [Menu](#menu)
-      * [Board](#board)
-      * [Squares](#squares)
-      * [Bombs](#bombs)
-   * [Download](#download)
+   * [效果演示图](#效果演示图)
+   * [Java 实现经典扫雷游戏](#java-实现经典扫雷游戏)
+   * [游戏驱动](#游戏驱动)
+   * [工具库](#工具库)
+   * [用户界面](#用户界面)
+      * [菜单](#菜单)
+      * [窗口](#窗口)
+      * [方块](#方块)
+      * [炸弹](#炸弹)
+   * [下载](#下载)
    
-# Minesweeper Demo
+# 效果演示图
 
 <p align="center"><img src ="images/minesweeper.gif" width = "600px"></p>
 
-# Minesweeper
+# Java 实现经典扫雷游戏
 [![LICENSE](https://img.shields.io/cocoapods/l/AFNetworking.svg)](https://github.com/Hephaest/Minesweeper/blob/master/LICENSE)
 [![JDK](https://img.shields.io/badge/JDK-8u202%20-orange.svg)](https://www.oracle.com/technetwork/java/javase/8u202-relnotes-5209339.html)
 [![Size](https://img.shields.io/badge/Size-54MB-critical.svg)](https://github.com/Hephaest/Minesweeper/raw/master/download/Minesweeper_64-bit_Windows_Setup.exe)
 
-English | [中文](README_CN.md)
+[English](README.md) | 中文
 
-Last updated on `2019/07/08`
+最后一次更新于 `2019/07/08`
 
-The minesweeper has following **functionalities**：
-1. Displays an image of a bomb if that square has a bomb on it. 
-2. Displays the number of bombs in surrounding squares if the player clicks the left mouse otherwise.
-3. Works for a board of any size or shape (customisation)
-4. Provides several levels of the game.
-5. Display a red flag if the player single clicks the right mouse.
-6. Display a question mark if the player double clicks the right mouse.
-7. Display all bombs and squares with wrong operations if the player fails the game.
-8. Display all bombs of squares replacing red flags if the player wins the game.
+本扫雷游戏有以下**功能**：
+1. 如果点中炸弹会显示炸弹。
+2. 玩家左键点击方块能显示该方块周围会出现几个炸弹，如果不存在炸弹的话扫描范围会被放大。
+3. 满足各种行数，列数和炸弹个数要求。
+4. 对不同水平的玩家提供不同的游戏难度级别。
+5. 如果玩家单击鼠标右键会显示红旗。
+6. 如果玩家双击鼠标右键会显示问号。
+7. 如果玩家游戏挑战失败显示所有炸弹隐藏的地方以及玩家失误标记的地方。
+8. 如果玩家挑战成功显示所有的炸弹(原本炸弹的位置有可能已被玩家用小红旗标识了)。
 
-The source code contains an abstract class and an interface. I have divided my program into 3 parts: `GameDriver`, `Library`, `UserInterface`.
+源代码包括抽象类和接口。我将程序分为三个部分来介绍：`GameDriver`，`Library`，`UserInterface`。
 
-# Game Driver
-This part is very simple. The `Driver` class is used to start the game.
+# 游戏驱动
+这部分相当简单(因为只有一个主函数)。`Driver` 类被用于作为启动游戏的接口。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package GameDriver;
 
@@ -48,21 +48,21 @@ import UserInterface.Menu;
 /**
  * @author Hephaest
  * @since 3/21/2019 8:41 PM
- * This class is used to run the minesweeper program.
+ * 此类是用来运行扫雷游戏程序的。
  */
 public class Driver
 {
 	public static void main(String[] Args)
 	{
-		// Start the game with a menu.
+		// 游戏启动的时候会附带一个选项菜单窗口。
 		new Menu("Minesweeper");
 	}
 }
 ```
-# Library
-The package `Library` only contains 2 tools. The first one is abstract class `Bomb`, which stores the information about the game board.
+# 工具库
+包 `Library` 内只有两个文件。第一个是抽象类 `Bomb`，它用于存储和有关游戏窗口的物理信息。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package Library;
 
@@ -70,17 +70,17 @@ import UserInterface.GameBoard;
 /**
  * @author Hephaest
  * @since 3/21/2019 8:41 PM
- * This class is abstract and should be extended to provide the domain specific functionality.
+ * 这个抽象类中的抽象方法会在被继承时实现。
  */
 public abstract class Bomb
 {
-    /** The GameBoard instance **/
+    /** 游戏窗口实例 **/
     protected GameBoard board;
 
-    /** The height of this GameBoard instance **/
+    /** 实例的高度 **/
     protected int boardHeight;
 
-    /** The width of this GameBoard instance **/
+    /** 实例的宽度 **/
     protected int boardWidth;
 
     /**
@@ -90,35 +90,34 @@ public abstract class Bomb
     public Bomb(GameBoard board)
     {
         this.board = board;
-        // Both height and width of the board should remove its padding values.
+        // 真正加入计算的高和宽去需要减去填充边距的长度。
         boardHeight = (board.getHeight() - 20) / 20;
         boardWidth = (board.getWidth() - 20) / 20;
     }
 
     /**
-     * A method that is invoked when producing bombs on the game board.
+     * 该方法将会被用于分布炸弹的位置。
      */
     protected abstract void reproduceBomb();
 
 }
 ```
-The second one is `TimeChecker`, an interface to convert milliseconds to a string representation of the corresponding time, is used in `SmartSquare` class.
+第二个工具就是 `TimeChecker` 接口，它使用将毫秒时间转换成相对应的时间表达，将会被用于 `SmartSquare` 类。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package Library;
 /**
  * @author Hephaest
  * @since 3/21/2019 8:41 PM
- * This interface has a static method to convert milliseconds to a string representation of the
- * corresponding time.
+ * 这个接口有个静态方法通过给定的毫秒时间换算成相对应的时间表达。
  */
 public interface TimeChecker
 {
     /**
-     * This static method could return a string representation of the cost time by the given running time.
-     * @param time the running time between the game starts and ends.
-     * @return a string representation of the cost time.
+     * 根据程序给定的运行时间返回程序运行时间的标准表达。
+     * @param time 在游戏开始和结束之间的时间。
+     * @return 总用时的文本描述。
      */
     static String calculateTime(long time)
     {
@@ -127,8 +126,8 @@ public interface TimeChecker
 
         int ms = (int) time;
         int sec = ms / CONVERT_TO_SEC;
-        int min = sec / CONVERT_TO_OTHERS; // Seconds convert to minutes.
-        int hr = min / CONVERT_TO_OTHERS; // Minutes convert to hours.
+        int min = sec / CONVERT_TO_OTHERS; // 把秒转换成分。
+        int hr = min / CONVERT_TO_OTHERS; // 把分转化成小时。
 
         if (hr == 0)
         {
@@ -145,15 +144,15 @@ public interface TimeChecker
     }
 }
 ```
-# User Interface
-The following UML diagram could help you easier to understand relationships between the following classes:
+# 用户界面
+下方的 UML 图 可以帮助您理解以下几个类之间的关系：
 
 <p align="center"><img src ="images/bluejScreenshot.png" width = "600px"></p>
 
-## Menu
-The `Menu` class provides 4 difficulty options to players: Beginner, Intermediate, Advanced and Custom. Especially for Custom, the program needs the check whether the player's input is valid or not. If the player confirms the option, the progarm starts the timer.
+## 菜单
+`Menu` 类为玩家提供了4种难度级别的选项：初级，中级，高级和自定义。尤其对于自定义来说，程序需要检验玩家的输入是否符合要求。如果玩家确定选择了以后，选择菜单消失，启动游戏窗口。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package UserInterface;
 
@@ -163,11 +162,11 @@ import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
 /**
- * This class inherits from the JFrame class.
- * This class implements the methods from ActionListener to respond different click events.
- * This class provides 4 options for user to start a new game.
- * These 4 options are "Beginner", "Intermediate", "Advanced" and "Custom".
- * After clicking "New Game" button, this pop-window is automatically closing.
+ * 该类继承 JFrame 类。
+ * 该类实现了 ActionListener 里对不用点击事件的反馈。
+ * 该类提供4个选项供玩家选择。
+ * 这4个选项分别是 "初级"，"中级"，"高级" 和 "自定义"。
+ * 在点击 "New Game" 按钮之后，菜单窗口自动关闭。
  * @author Hephaest
  * @since 3/21/2019 8:41 PM
  */
@@ -178,25 +177,25 @@ public class Menu extends JFrame implements ActionListener
     private JTextField width, height, mines;
 
     /**
-     * Create a menu of the given title.
-     * @param title the title string for the window.
+     * 创建一个给定标题的菜单。
+     * @param title 菜单上的标题。
      */
     public Menu(String title)
     {
-        // Create a window title.
+        // 设置菜单标题。
         setTitle(title);
 
-        // Create a subtitle
+        // 创建菜单子标题。
         JLabel subtitle = new JLabel("Difficulty");
         subtitle.setBounds(100,10,100,20);
         add(subtitle);
 
-        // Create the "Beginner" radio button.
+        // 创建 "初级" 选择按钮。
         beginner = new JRadioButton("Beginner");
         beginner.setBounds(40,40,150,20);
         add(beginner);
 
-        // Create the "Beginner" descriptions.
+        // 设置 "初级" 选择的描述。
         JLabel bDescFirstLine = new JLabel("10 mines");
         bDescFirstLine.setBounds(70,60,100,20);
         JLabel bDescSecondLine = new JLabel("10 x 10 tile grid");
@@ -204,12 +203,12 @@ public class Menu extends JFrame implements ActionListener
         add(bDescFirstLine);
         add(bDescSecondLine);
 
-        // Create the "Intermediate" radio button
+        // 创建 "中级" 选择按钮。
         intermediate=new JRadioButton("Intermediate");
         intermediate.setBounds(40,100,150,20);
         add(intermediate);
 
-        // Create the "Intermediate" descriptions.
+        // 设置 "中级" 选择的描述。
         JLabel iDescFirstLine = new JLabel("40 mines");
         iDescFirstLine.setBounds(70,120,100,20);
         JLabel iDescSecondLine = new JLabel("16 x 16 tile grid");
@@ -217,12 +216,12 @@ public class Menu extends JFrame implements ActionListener
         add(iDescFirstLine);
         add(iDescSecondLine);
 
-        // Create the "Advanced" radio button
+        // 创建 "高级" 选择按钮。
         advanced=new JRadioButton("Advanced");
         advanced.setBounds(40,160,160,20);
         add(advanced);
 
-        // Create the "Advanced" descriptions.
+        // 设置 "高级" 选择的描述。
         JLabel aDescFirstLine = new JLabel("100 mines");
         aDescFirstLine.setBounds(70,180,100,20);
         JLabel aDescSecondLine = new JLabel("30 x 25 tile grid");
@@ -230,12 +229,12 @@ public class Menu extends JFrame implements ActionListener
         add(aDescFirstLine);
         add(aDescSecondLine);
 
-        // Create the "Custom" radio button
+        // 创建 "自定义" 选择按钮。
         custom = new JRadioButton("Custom");
         custom.setBounds(40,220,100,20);
         add(custom);
 
-        // Create the "Custom" labels and editable text fields.
+        // 设置 "自定义" 选择的描述。
         JLabel widthLabel = new JLabel("Width (10-30):");
         widthLabel.setBounds(70,240,80,20);
         add(widthLabel);
@@ -260,31 +259,31 @@ public class Menu extends JFrame implements ActionListener
         mines.setBounds(170,280,40,20);
         add(mines);
 
-        // Create the "New Game" button.
+        // 创建 "开始游戏" 选择按钮。
         start = new JButton("New Game");
         start.setBounds(80,320,100,20);
         add(start);
 
-        // Initialize the text fields' edit state.
+        // 初始化每个文本框的编辑状态。
         width.setEditable(false);
         height.setEditable(false);
         mines.setEditable(false);
 
-        // Add actionListener to all buttons.
+        // 在每个按键上添加监听事件。
         custom.addActionListener(this);
         beginner.addActionListener(this);
         intermediate.addActionListener(this);
         advanced.addActionListener(this);
         start.addActionListener(this);
 
-        // Ensure single choice.
+        // 确保单选。
         ButtonGroup group = new ButtonGroup();
         group.add(beginner);
         group.add(intermediate);
         group.add(advanced);
         group.add(custom);
 
-        //Initialize this menu instance.
+        // 初始化菜单实例。
         beginner.setSelected(true);
         setSize(280,400);
         setLayout(null);
@@ -294,19 +293,19 @@ public class Menu extends JFrame implements ActionListener
     }
 
     /**
-     * An implementation method of ActionListener interface.
-     * @param e the click event.
+     * 实现 ActionListener 接口。
+     * @param e 点击事件。
      */
     public void actionPerformed(ActionEvent e)
     {
-        // If user chooses "Custom", set the text fields as editable.
+        // 如果用户选择 "自定义"，设置文本框为可编辑状态。
         if (e.getSource() == custom)
         {
             width.setEditable(true);
             height.setEditable(true);
             mines.setEditable(true);
         } else if (e.getSource() == start) {
-            // If user clicks "New Game" button, get the responding bomb amount, width and height of the board.
+            // 如果用户点击 "开始游戏" 按钮，获得相对应的炸弹总数，游戏窗口的长和宽。
             int boardWidth = 0;
             int boardHeight = 0;
             int bombs = 0;
@@ -328,7 +327,7 @@ public class Menu extends JFrame implements ActionListener
             } else {
                 if(!checkValid(width.getText(), height.getText(), mines.getText()))
                 {
-                    // mark a flag and display a window with error message.
+                    // 设置标记并在窗口上弹出错误提示。
                     errorFlag = true;
                     JOptionPane.showMessageDialog(null, "Please enter correct numbers!");
 
@@ -342,7 +341,7 @@ public class Menu extends JFrame implements ActionListener
             if(!errorFlag)
             {
 
-                // Close current window and then display the board that meets the requirements.
+                // 关闭当前菜单窗口并弹出与之对应的游戏窗口。
                 this.dispose();
                 GameBoard b = new GameBoard("Minesweeper", boardWidth, boardHeight);
                 new ProduceBombs(b, bombs);
@@ -350,7 +349,7 @@ public class Menu extends JFrame implements ActionListener
             }
 
         } else{
-            // If user neither chooses "Custom" nor clicks "New Game" button, these fields cannot be editable.
+            // 如果玩家即没有选择 "Custom" 也没有点击 "New Game" 按钮，这些文本框要设置成不可编辑的状态。
             width.setEditable(false);
             height.setEditable(false);
             mines.setEditable(false);
@@ -358,11 +357,11 @@ public class Menu extends JFrame implements ActionListener
     }
 
     /**
-     * Check whether user's inputs from the text fields are all vaild.
-     * @param bWidth the width of the board.
-     * @param bHeight the height of the board.
-     * @param bomb the amount of bombs.
-     * @return a boolean value of the check result.
+     * 检查玩家的输入是否符合要求。
+     * @param bWidth 游戏窗口的宽度。
+     * @param bHeight 游戏窗口的高度。
+     * @param bomb 炸弹的总数
+     * @return 返回检查结果的布尔值。
      */
     private boolean checkValid(String bWidth, String bHeight, String bomb)
     {
@@ -381,10 +380,10 @@ public class Menu extends JFrame implements ActionListener
     }
 }
 ```
-## Board
-The `GameBoard` class could create a game window but this window should not be resizeable otherwise its height and width may not satisify game requirements. In addition, the game board should contain multiple squares and each square should own its action listener.
+## 窗口
+`GameBoard` 类可以创建一个新的窗口，但要求这个窗口不被缩放不然会影响到计算时需要用到的长和宽。除此之外，在游戏窗口里的每一个小方块应该有自己的事件监听器。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package UserInterface;
 
@@ -392,11 +391,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 /**
- * This class provides a graphical model of a board game.
- * The class creates a rectangular panel of clickable squares,
- * of type SmartSquare. If a square is clicked by the user, a
- * callback method is invoked upon the corresponding SmartSquare instance.
- * The class is intended to be used as a basis for tile based games.
+ * 该类为游戏窗口提供图形模型。
+ * 该类创建了可点击的矩形面板
+ * 如果玩家点击了小方块，会在响应的 SmartSquare 实例种调用回调函数。
+ * 该类是基于平铺的游戏的基础。
  * @author joe finney
  */
 public class GameBoard extends JFrame implements ActionListener
@@ -408,13 +406,12 @@ public class GameBoard extends JFrame implements ActionListener
 	private GameSquare[][] board;
 
 	/**
-	 * Create a new game board of the given size.
-	 * As soon as an instance of this class is created, it is visualized
-	 * on the screen.
+	 * 创建给定大小的游戏窗口。
+	 * 一旦该类实例被创建，窗口将可视化。
 	 *
-	 * @param title the name printed in the window bar.
-	 * @param width the width of the game area, in squares.
-	 * @param height the height of the game area, in squares.
+	 * @param title 窗口栏的标题。
+	 * @param width 以方块作单位的窗口的宽。
+	 * @param height 以方块作单位的窗口的高。
 	 */
 	public GameBoard(String title, int width, int height)
 	{
@@ -423,10 +420,10 @@ public class GameBoard extends JFrame implements ActionListener
 		this.boardWidth = width;
 		this.boardHeight = height;
 
-		// Create game state.
+		// 创建游戏初始方块。
 		this.board = new GameSquare[width][height];
 
-		// Set up window.
+		// 新建窗口。
 		setTitle(title);
 		setSize(20 + width * 20,20 + height * 20);
 		setContentPane(boardPanel);
@@ -446,17 +443,17 @@ public class GameBoard extends JFrame implements ActionListener
 			}
 		}
 
-		// make our window visible.
+		// 使窗口可视化。
 		setVisible(true);
 
 	}
 
 	/**
-	 * Returns the GameSquare instance at a given location.
-	 * @param x the x co-ordinate of the square requested.
-	 * @param y the y co-ordinate of the square requested.
-	 * @return the GameSquare instance at a given location
-	 * if the x and y co-ordinates are valid - null otherwise.
+	 * 返回给定位置的方块。
+	 * @param x 给定方块的 x 的坐标。
+	 * @param y 给定方块的 y 的坐标。
+	 * @return 返回给定位置的方块。
+	 * 如果 x 和 y 的位置都在边界范围内，则给出响应的方块对象，否则返回 null.
 	 */
 	public GameSquare getSquareAt(int x, int y)
 	{
@@ -468,16 +465,16 @@ public class GameBoard extends JFrame implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		// The button that has been pressed.
+		// 被点击的方块，需要处理点击情况。
 		GameSquare b = (GameSquare)e.getSource();
 		b.clicked();
 	}
 }
 ```
-## Squares
-The abstract class `GameSquare` only provides fundamental methods. 
+## 方块
+抽象类 `GameSquare` 只提供基本的方法。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package UserInterface;
 
@@ -485,28 +482,27 @@ import javax.swing.*;
 import java.net.URL;
 
 /**
- * This class provides a representation of a single game square.
- * The class is abstract, and should be extended to provide domain.
- * specific functionality.
+ * 该类描述了方块对象中主要的属性和方法。
+ * 该类是抽象的，将在之后被继承，被继承的抽象方法需要被实现。
  * @author joe finney
  */
 public abstract class GameSquare extends JButton
 {
-	/** The x co-ordinate of this square. **/
+	/** 方块的 x 坐标 **/
 	protected int xLocation;
 
-	/** The y co-ordinate of this square. **/
+	/** 方块的 y 坐标 **/
 	protected int yLocation;
 
-	/** The GameBoard upon which this GameSquare resides. **/
+	/** 方块所在的游戏窗口 **/
 	protected GameBoard board;
 
 	/**
-	 * Create a new GameSquare, which can be placed on a GameBoard.
-	 * @param x the x co-ordinate of this square on the game board.
-	 * @param y the y co-ordinate of this square on the game board.
-	 * @param filename file name.
-	 * @param board the GameBoard upon which this square resides.
+	 * 创建一个会被放在游戏窗口的方块对象。
+	 * @param x 方块相对于游戏窗口的 x 坐标。
+	 * @param y 方块相对于游戏窗口的 y 坐标。
+	 * @param filename 图片文件所在位置。
+	 * @param board 游戏窗口。
 	 */
 	public GameSquare(int x, int y, URL filename, GameBoard board)
 	{
@@ -518,9 +514,9 @@ public abstract class GameSquare extends JButton
 	}
 
 	/**
-	 * Change the image displayed by this square to the given bitmap.
+	 * 根据所给的文件地址更改当前方块渲染的图像。
 	 *
-	 * @param filename the filename of the image to display.
+	 * @param filename 需要更新的图片的地址，
 	 */
 	public void setImage(URL filename)
 	{
@@ -528,20 +524,19 @@ public abstract class GameSquare extends JButton
 	}
 
 	/**
-	 * A method that is invoked when a user clicks on this square.
-	 *
+	 * 用户点击调用的方法。
 	 */
 	public abstract void clicked();
 }
 ```
-However, the class `SmartSquare` extends class `GameSquare` and overrides the clicked() method. As I have mention before, the click() method should achieve the following functionalities:
-- Displays the number of bombs in surrounding squares if the player clicks the left mouse.
-- Display a red flag if the player single clicks the right mouse.
-- Display a question mark if the player double clicks the right mouse.
+然而，`SmartSquare` 类继承了 `GameSquare` 类并重写了 `clicked()` 方法。 `click()` 方法需要实现以下**功能**:
+- 玩家左键点击方块能显示该方块周围会出现几个炸弹。
+- 如果玩家单击鼠标右键会显示红旗。
+- 如果玩家双击鼠标右键会显示问号
 
-Besides, this object of this class has 2 special attributions: `guessThisSquareIsBomb`, `thisSquareHasTraversed`. Those attributions belong to **boolean** type. `guessThisSquareIsBomb` of an object becomes true when the player clicks this object once on the right mouse. As for `thisSquareHasTraversed`, this attribution is used to avoid infinite recursion, once player clicks an object, the program let `thisSquareHasTraversed` of this object becomes **true** .
+除此之外，该对象的实例拥有两个特殊的属性: `guessThisSquareIsBomb` 和 `thisSquareHasTraversed`。这些属性都是**布尔**类型的。 `guessThisSquareIsBomb` 为真当玩家右键单击鼠标。 `thisSquareHasTraversed` 是用来防止无限递归的。一旦用户左键点击过方块该方块的 `thisSquareHasTraversed` 为**真**。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package UserInterface;
 
@@ -552,62 +547,62 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * This class inherits from the GameSquare class.
- * This class implements the methods from ActionListener and MouseListener to respond different click events.
- * Each square has its own unique representation of coordinates and attributes.
- * This class counts the number of its surrounding bombs once user clicks the square.
- * This class shows a pop-up window when the game failed or user succeed.
+ * 该类继承 GameSquare 类。
+ * 该类实现了 ActionListener 和 MouseListener 的方法，对不同的点击事件有不同的响应。
+ * 每一个方块有自己独一无二的二维坐标和属性值。
+ * 一旦玩家鼠标左击点击该类的实例，会马上显示出该方块周围存在几个炸弹。
+ * 该类提供一个弹出窗口无论玩家挑战成功或失败。
  * @author Hephaest
  * @since 3/21/2019 8:41 PM
  */
 public class SmartSquare extends GameSquare implements MouseListener, TimeChecker
 {
-	/** The bomb existence of this square. **/
+	/** 炸弹在该方块的存在与否 **/
 	private boolean thisSquareHasBomb;
 
-	/** User sets a red flag on this square. **/
+	/** 玩家是否有在该方块上设置红旗 **/
 	private boolean guessThisSquareIsBomb;
 
-	/** The traversal state of this square. **/
+	/** 该方块是否被遍历过 **/
 	private boolean thisSquareHasTraversed;
 
-	/** The x co-ordinate of this square. **/
+	/** 该方块的 x 坐标 **/
 	private int xLocation;
 
-	/** The y co-ordinate of this square. **/
+	/** 该方块的 y 坐标 **/
 	private int yLocation;
 
-	/** The start time of the game. **/
+	/** 该方块记录的游戏开始时间 **/
 	private long startTime;
 
 	/**
-	 * Create a new SmartSquare instance, which can be placed on a GameBoard.
-	 * @param x the x co-ordinate of this square on the game board.
-	 * @param y the y co-ordinate of this square on the game board.
-	 * @param board the GameBoard upon which this square resides.
+	 * 创建该类的新实例并放到游戏窗口上去。
+	 * @param x 该方块相对于游戏窗口的 x 的坐标。
+	 * @param y 该方块相对于游戏窗口的 y 的坐标。
+	 * @param board 该方块所在的游戏窗口。
 	 */
 	public SmartSquare(int x, int y, GameBoard board)
 	{
-		// Paint this square as gray block when initialization.
+		// 初始化时将方块变成灰色。
 		super(x, y, SmartSquare.class.getResource("/block.png"), board);
 
-		// Assign coordinates to this square.
+		// 赋值地址。
 		xLocation = x;
 		yLocation = y;
 
-		// Initialize attributes.
+		// 初始化属性。
 		thisSquareHasBomb = false;
 		thisSquareHasTraversed = false;
 		guessThisSquareIsBomb = false;
 		startTime = 0;
 
-		// add right mouse listener.
+		// 添加右键监听器。
 		addMouseListener(this);
 	}
 
 	/**
-	 * Set bomb existence of the SmartSquare instance as a given result.
-	 * @param result the bomb existence of this SmartSquare instance.
+	 * 为炸弹是否存在于该方块设定值。
+	 * @param result 给定的布尔值。
 	 */
 	protected void setBombExist(boolean result)
 	{
@@ -615,8 +610,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * Return bomb existence of the SmartSquare instance.
-	 * @return the bomb existence of this SmartSquare instance.
+	 * 获取炸弹是否存在于该方块的结果。
+	 * @return 布尔结果。
 	 */
 	protected boolean getBombExist()
 	{
@@ -624,8 +619,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * Return traversal state of the SmartSquare instance.
-	 * @return the traversal state of this SmartSquare instance.
+	 * 返回该方块是否遍历过的状态。
+	 * @return 该方块的状态。
 	 */
 	protected boolean getTraverse()
 	{
@@ -633,8 +628,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * Set traversal state of the SmartSquare instance as a given result.
-	 * @param result the traversal state of this SmartSquare instance.
+	 * 根据给定值设置该方块当前的状态。
+	 * @param result 布尔值表示当前的状态。
 	 */
 	protected void setTraverse(boolean result)
 	{
@@ -642,8 +637,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * Return a boolean value whether user sets a red flag in this square or not.
-	 * @return the state whether this square has been marked as a bomb or not.
+	 * 返回该方块是否插上小红旗的查询结果。
+	 * @return 返回查询状态。
 	 */
 	protected boolean getGuessThisSquareIsBomb()
 	{
@@ -651,8 +646,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * Set the start time of the game.
-	 * @param time the time presented as milliseconds.
+	 * 记录游戏开始的时间戳。
+	 * @param time 以毫秒表示的时间。
 	 */
 	protected void setStartTime(long time)
 	{
@@ -660,8 +655,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * Return the game start time.
-	 * @return the time presented as milliseconds.
+	 * 返回游戏刚开始的时间。
+	 * @return 返回以毫秒表示的时间。
 	 */
 	protected long getStartTime()
 	{
@@ -669,8 +664,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * An implementation method of abstract method (from GameSquare).
-	 * Once get click event, detect bombs and expand into empty space.
+	 * 从 GameSquare 实现的抽象方法。
+	 * 一旦获得点击事件，检测炸弹的存在和扩大空白的面积。
 	 */
 	public void clicked()
 	{
@@ -682,8 +677,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 		if(thisSquareHasBomb)
 		{
 			/*
-			 * If this square contains a bomb, show the bomb image.
-			 * Then display the selection window.
+			 * 如果该方块包含炸弹，显示炸弹。
+			 * 弹出失败窗口。
 			 */
 			setImage(SmartSquare.class.getResource("/bombReveal.png"));
 			long costTime = System.currentTimeMillis() - ((SmartSquare) board.getSquareAt(0, 0)).getStartTime();
@@ -693,10 +688,8 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 		} else{
 			thisSquareHasTraversed = false;
 			/*
-			 * If this square doesn't contain a bomb, calculate its surrounding bombs.
-			 * If this square has zero bombs in its surrounding squares,
-			 * expanding into empty space until the surrounding of the space has at least one bomb
-			 * or the space touches the window's boundary.
+			 * 如果该方块不包含炸弹，计算它周围8个格子里炸弹的总数。
+			 * 如果周遭也没有炸弹，扩大空白区域直到检测到炸弹或者越界。
  			 */
 			cq.countBomb(xLocation, yLocation);
 
@@ -711,10 +704,10 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	}
 
 	/**
-	 * A method to achieve pop-up window.
-	 * @param msg the message to display on the window.
-	 * @param title the title string for the window.
-	 * @param img the icon.
+	 * 一个实现弹出窗口的方法。
+	 * @param msg 要显示在窗口上的信息。
+	 * @param title 窗口的标题。
+	 * @param img the 窗口的图标。
 	 */
 	public void window(String msg, String title, Icon img)
 	{
@@ -727,30 +720,30 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 			new Menu("Mine sweeper");
 		}
 
-		// Close this window after user making a choice
+		// 关闭弹出窗口并重返菜单。
 		board.dispose();
 	}
 
 	/**
-	 * An implementation method to respond right-click events.
-	 * @param e the event when user clicks on this square.
+	 * 实现对右键鼠标的反馈。
+	 * @param e 玩家点击方块的事件。
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		// If user right-click on this square.
+		// 如果玩家右击方块。
 		if (e.getButton() == MouseEvent.BUTTON3)
 		{
 			int clickCount = e.getClickCount();
 
-			// Show red flag.
+			// 显示小红旗。
 			if (clickCount == 1)
 			{
 				setImage(SmartSquare.class.getResource("/redFlag.png"));
 				guessThisSquareIsBomb = true;
 			}
 
-			// Show question mark.
+			// 显示问号。
 			if (clickCount == 2)
 			{
 				setImage(SmartSquare.class.getResource("/questionMark.png"));
@@ -759,7 +752,7 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 		}
 	}
 
-	// The following mouse events are not going to be handled in this class.
+	// 下列鼠标事件不处理。
 	@Override
 	public void mousePressed(MouseEvent e) {}
 
@@ -773,49 +766,49 @@ public class SmartSquare extends GameSquare implements MouseListener, TimeChecke
 	public void mouseExited(MouseEvent e) {}
 }
 ```
-The most important class is `CheckSquare`, which checks the rest of untraversed squares and displays the number of bombs in surrounding the selected one. If the number is 0, the program will check the number of bombs surrounded in the surroundings. The terminated condition is that the target has been traversed or the position of target is out of the boundary. Note that surrounding squares a classified as the eight squares that are horizontally, vertically or diagonally adjacent to the square. 
+最重要的类是 `CheckSquare`，它会检查其余未遍历的方块，并显示所选方块周围的炸弹数量。如果周围炸弹总数为0，则以八方作为中心探测炸弹，以此类推。递归终止条件是该方块已被遍历过或者所查询方块超过游戏窗口的边界。注意八方的方块指的是左上，正上，右上，正左，正右，左下，正下，右下。
 
-The success condition is `the total number of squares = the total number of bombs (getTraverse() = true) + the number of squares the user clicked (getTraverse() = true)`. Therefore, this condition can be simplified as the program only needs to traverse all the squares. If each square is traversed, it means that the player wins the game.
+判断成功的条件是 `总方块数 = 炸弹的总数(生成后即被标记遍历过) + 用户点击的方块的个数(用户左击方块，该方块即被标记遍历过)`。因此简化了判断条件，程序只需要去遍历所有的方块，如果每个方块都被遍历过了，即说明玩家挑战成功。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package UserInterface;
 /**
  * @author Hephaest
  * @since 3/21/2019 8:41 PM
- * This class provides a way to count the total number of bombs which surrounds the given square.
+ * 该类用于计算指定方块周围的炸弹总数。
  */
 public class CheckSquare
 {
-    /** The GameBoard instance **/
+    /** 游戏窗口实例 **/
     private GameBoard board;
 
-    /** The height of this GameBoard instance **/
+    /** 实例的高度**/
     private int boardHeight;
 
-    /** The width of this GameBoard instance **/
+    /** 实例的宽度 **/
     private int boardWidth;
 
     private static final int[] distantX = {-1, 0, 1};
     private static final int[] distantY = {-1, 0, 1};
 
     /**
-     * Create a CheckSquare instance contained with the given board.
-     * @param board the GameBoard upon which user clicks on.
+     * 在游戏窗口中创建该类的实例。
+     * @param board 玩家点击的游戏窗口。
      */
     public CheckSquare(GameBoard board)
     {
         this.board = board;
-        // Both height and width of the board should remove its padding values.
+        // 长宽都要减去边距的长度。
         boardHeight = (board.getHeight() - 20) / 20;
         boardWidth = (board.getWidth() - 20) / 20;
     }
 
     /**
-     * Returns the check result of the given position.
-     * @param x the x co-ordinate of the given square.
-     * @param y the y co-ordinate of the given square.
-     * @return a boolean value of the check result.
+     * 返回指定位置方块的检查结果。
+     * @param x 指定方块的 x 坐标。
+     * @param y 指定方块的 y 坐标。
+     * @return 指定方块的查询结果，用布尔类型表示。
      */
     private boolean hasKickedBoundary(int x, int y)
     {
@@ -823,12 +816,12 @@ public class CheckSquare
     }
 
     /**
-     * Returns the check result whether user has found out all bombs.
-     * @return a boolean value of the check result.
+     * 返回玩家是否挑战成功的确认结果。
+     * @return 确认结果用布尔值表示。
      */
     protected boolean isSuccess()
     {
-        // Ensure count start at 0 once this method is invoked.
+        // 确保调用该方法时计数器从0开始。
         int count = 0;
 
         for (int y = 0; y < boardHeight; y++)
@@ -841,7 +834,7 @@ public class CheckSquare
         }
 
         return count == boardHeight * boardWidth;
-// Alternative method.
+// 也可以写成这种形式。
 //        for (int y = 0; y < boardHeight; y++)
 //        {
 //            for (int x = 0; x < boardWidth; x++)
@@ -853,9 +846,9 @@ public class CheckSquare
     }
 
     /**
-     * This method reveals all bombs on the board, examine the square where user guesses it has a bomb.
-     * @param currentX the x co-ordinate of the given square.
-     * @param currentY the y co-ordinate of the given square.
+     * 该方法会显示所有炸弹的位置，检验用户猜测是否正确。
+     * @param currentX 该方块的 x 坐标。
+     * @param currentY 该方块的 y 坐标。
      */
     protected void showBomb(int currentX, int currentY)
     {
@@ -873,35 +866,35 @@ public class CheckSquare
     }
 
     /**
-     * This method counts the total number of bombs which surrounds the given square.
-     * If there is no bombs surrounds the square, paint this square as blank then expand its surrounding squares.
-     * until find bombs of the surrounding squares are not empty. This method is implemented by recursion algorithm.
-     * @param currentX the x co-ordinate of the given square.
-     * @param currentY the y co-ordinate of the given square.
+     * 该方法计算指定方块周围的炸弹总数。
+     * 如果该方块周围没有炸弹，把该方块绘制成白色并扩大检测范围。
+     * 直到周围的炸弹总数不为0。该方法用递归算法实现。
+     * @param currentX 该方块的 x 坐标
+     * @param currentY 该方块的 y 坐标。
      */
     protected void countBomb(int currentX, int currentY)
     {
-        // Ensure count start at 0 once this method is invoked.
+        // 确保每次调用时计数器从0开始计数。
         int count = 0;
         SmartSquare currentObject;
 
         if (hasKickedBoundary(currentX, currentY))
-            return; //Skip iteration.
+            return; // 无需往下检验，直接跳出循环。
         else if(((SmartSquare)board.getSquareAt(currentX, currentY)).getTraverse())
-            return; //Skip iteration.
+            return; // 无需往下检验，直接跳出循环。
         else {
-            // Declare a SmartSquare instance.
+            // 声明 SmartSquare 实例。
             SmartSquare squareObject;
 
-            // Get the current square.
+            // 获取当前方块对象。
             currentObject = (SmartSquare)board.getSquareAt(currentX, currentY);
             currentObject.setTraverse(true);
 
             /*
-             * Check surrounding 8 squares:
-             * If the square has touch the boundary, skip to next iteration of the loop.
-             * Else if the square is itself, then it's unnecessary to count. Just skip to next iteration of the loop.
-             * Else check whether this surrounding square contains a bomb. If it does, count accumulation.
+             * 检测周围 8 个方块:
+             * 如果所指定的方块位置超出游戏窗口边界，跳出本次循环。
+             * 如果所指定的方块位置恰恰是自己，跳出本次循环。
+             * 否则检验该方块周围是否含有炸弹。如果有，计算机累加。
              */
             for (int x : distantX)
             {
@@ -918,38 +911,37 @@ public class CheckSquare
         }
 
         /*
-         * If count result is zero, then replace this square with its surrounding
-         * squares and invoke itself to find the bombs again.
+         * 如果循环后计数器仍为0，用该方块周围的方块们作为中心继续探测。
          */
         if (count != 0)
             currentObject.setImage(CheckSquare.class.getResource( "/" + count + ".png"));
         else {
-            // Paint current square as blank.
+            // 将当前方块渲染为空白。
             currentObject.setImage(CheckSquare.class.getResource("/0.png"));
-            countBomb(currentX - 1, currentY -1); // Upper left.
-            countBomb(currentX, currentY -1); // Above.
-            countBomb(currentX + 1, currentY -1); // Upper right.
-            countBomb(currentX - 1, currentY); // Left side.
-            countBomb(currentX + 1, currentY); // Right side.
-            countBomb(currentX - 1, currentY + 1); // Lower left.
-            countBomb(currentX, currentY + 1); // Below.
-            countBomb(currentX + 1, currentY + 1); // Lower right.
+            countBomb(currentX - 1, currentY -1); // 左上。
+            countBomb(currentX, currentY -1); // 正上。
+            countBomb(currentX + 1, currentY -1); // 右上。
+            countBomb(currentX - 1, currentY); // 正左。
+            countBomb(currentX + 1, currentY); // 正右。
+            countBomb(currentX - 1, currentY + 1); // 左下。
+            countBomb(currentX, currentY + 1); // 正下。
+            countBomb(currentX + 1, currentY + 1); // 右下。
         }
     }
 }
 ```
-## Bombs
-Randomly generating the bombs always causes collisions. The class `ProduceBombs` is used to handle this issue, each square has an attribution called `thisSquareHasBomb` to record whether the current square already contains a bomb. If the answer is true, we need to re-allocate the bomb until it is no longer conflict with others. This method mainly uses **tail recursion**.
+## 炸弹
+随机分配炸弹位置很容易造成位置冲突。`ProduceBombs` 类专门用于处理这个问题，每个方块都有一个属性 `thisSquareHasBomb` 用来记录当前的方块是否为炸弹。 如果是，程序就会重新分配炸弹的位置直到不再和其他炸弹位置冲突为止。这个方法主要利用 **尾递归** 来优化内存占用空间。
 
-The code is shown as follows:
+代码如下所示：
 ```Java
 package UserInterface;
 
 import Library.Bomb;
 import java.util.Random;
 /**
- * This class provides a method to generate bombs on the board.
- * This class mainly uses recursion algorithm to put bombs on different squares.
+ * 该类用于在游戏窗口生成炸弹。
+ * 该类主要用尾递归算法来分配炸弹的位置。
  * @version V1.0
  * @author Hephaest
  * @since 2019-03-12 20:18
@@ -957,10 +949,10 @@ import java.util.Random;
 public class ProduceBombs extends Bomb
 {
     /**
-     * Create a ProduceBombs instance to generate bombs at the given board.
-     * Using recursion algorithm to avoid generating more than one bomb on the same square.
-     * @param board the GameBoard upon which user clicks on.
-     * @param number the total number of bombs.
+     * 在给定游戏窗口创建该类的实例。
+     * 使用递归函数避免炸弹位置重叠。
+     * @param board 用户点击的游戏窗口。
+     * @param number 炸弹的总数。
      */
     public ProduceBombs(GameBoard board, int number)
     {
@@ -976,8 +968,7 @@ public class ProduceBombs extends Bomb
     }
 
     /**
-     * This method produce bombs on random square. If the assigned square has already contained a bomb, then
-     * reassign a square to receive this bomb by invoking itself.
+     * 该类用于在游戏窗口随机生成炸弹的位置。如果该位置已被占，则通过调用自己重新生成新的位置，以此类推。
      */
     public void reproduceBomb()
     {
@@ -990,7 +981,7 @@ public class ProduceBombs extends Bomb
 
         if (!square.getBombExist())
         {
-            // mark this square as it has a bomb and been traversed.
+            // 标记该方块含有炸弹并被遍历过了。
             square.setBombExist(true);
             square.setTraverse(true);
         } else {
@@ -999,11 +990,11 @@ public class ProduceBombs extends Bomb
     }
 }
 ```
-# Download
-I have packed the source code as executable files for multiple platforms. Enjoy yourself! 
+# 下载
+已提供多平台可运行的执行程序，如果您感兴趣可点击下方链接直接下载安装。尽情享受游戏的乐趣叭!
 
-**For Windows 64-bit**: [Download here](https://github.com/Hephaest/Minesweeper/raw/master/download/Minesweeper_64-bit_Windows_Setup.exe)
+**适用于 Windows 64 位**: [点击这里下载](https://github.com/Hephaest/Minesweeper/raw/master/download/Minesweeper_64-bit_Windows_Setup.exe)
 
-**For MacOS**: [Download here](https://github.com/Hephaest/Minesweeper/raw/master/download/Minesweeper_MacOS_Setup.dmg)
+**适用于 MacOS**: [点击这里下载](https://github.com/Hephaest/Minesweeper/raw/master/download/Minesweeper_MacOS_Setup.dmg)
 
-**For Unix/Linux**: [Download here](https://github.com/Hephaest/Minesweeper/raw/master/download/Mine_Unix_SetUp.sh)
+**适用于 Unix/Linux**: [点击这里下载](https://github.com/Hephaest/Minesweeper/raw/master/download/Mine_Unix_SetUp.sh)

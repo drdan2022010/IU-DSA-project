@@ -22,7 +22,7 @@ public class FansyButton extends JLabel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.setForeground(Color.yellow);
+        this.setForeground(new Color(255,203,0));
         this.setOpaque(false);
         this.addMouseListener(this);
     }
@@ -53,6 +53,6 @@ public class FansyButton extends JLabel implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        this.setForeground(Color.yellow);
+        this.setForeground(new Color(255,203,0));
     }
 }

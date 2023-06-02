@@ -9,18 +9,17 @@ public class StartWindow extends JFrame {
 
 	public StartWindow(){
 		setSize(600,400);
-		getContentPane().setBackground(Color.black);
+		getContentPane().setBackground(Color.white);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		ImageIcon logo = new ImageIcon();
 		try {
-			logo = new ImageIcon(ImageIO.read(this.getClass().getResource("/pacman_logo1.png")));
+			logo = new ImageIcon(ImageIO.read(this.getClass().getResource("pacman_logo1.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		//Register Custom fonts
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("crackman.ttf")));
@@ -32,8 +31,8 @@ public class StartWindow extends JFrame {
 		getContentPane().add(new JLabel(logo),BorderLayout.NORTH);
 
 		JPanel buttonsC = new JPanel();
-		buttonsC.setBackground(Color.black);
-//        buttonsC.setLayout(new FlowLayout(FlowLayout.LEADING,20,10));
+		buttonsC.setBackground(Color.white);
+      buttonsC.setLayout(new FlowLayout(FlowLayout.LEADING,20,10));
 		buttonsC.setLayout(new BoxLayout(buttonsC,BoxLayout.Y_AXIS));
 		FansyButton startButton = new FansyButton("Start Game");
 		FansyButton mini = new FansyButton("Whack a mole");
