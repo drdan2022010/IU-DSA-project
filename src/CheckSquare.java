@@ -1,5 +1,3 @@
-package UserInterface;
-
 public class CheckSquare
 {
 
